@@ -36,7 +36,10 @@ def initialize_state():
     state.optimization_status = None
     # Opacity
     state.opacity = 0.05
-    # Superfacility API
+    # IRI API
+    state.iri_access_token = None
+    state.iri_base_url = None
+    # Legacy state variables kept for UI compatibility
     state.sfapi_client_id = None
     state.sfapi_key = None
     state.sfapi_key_dict = None

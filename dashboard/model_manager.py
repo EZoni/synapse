@@ -1,19 +1,24 @@
 import asyncio
 from datetime import datetime
 from pathlib import Path
+import json
 import tempfile
 import os
 import yaml
 import re
-from sfapi_client import AsyncClient
-from sfapi_client.compute import Machine
 from lume_model.models.torch_model import TorchModel
 from lume_model.models.ensemble import NNEnsemble
 from lume_model.models.gp_model import GPModel
 from trame.widgets import vuetify3 as vuetify
 from utils import verify_input_variables, timer, load_config_dict, create_date_filter
 from error_manager import add_error
-from sfapi_manager import monitor_sfapi_job
+from sfapi_manager import (
+    create_iri_client,
+    monitor_iri_job,
+    parse_sbatch_script,
+    upload_file_to_nersc,
+    PERLMUTTER_RESOURCE_ID,
+)
 from state_manager import state
 
 model_type_tag_dict = {
@@ -183,62 +188,76 @@ class ModelManager:
         if self.__model is not None:
             return self.__model.output_transformers
 
+    def _training_kernel_blocking(self):
+        """Blocking implementation of the training kernel using iri_client."""
+        client = create_iri_client()
+
+        # upload the configuration file to NERSC
+        config_dict = load_config_dict(state.experiment)
+        config_dict["simulation_calibration"] = state.simulation_calibration
+        # add date range filter to the configuration dictionary
+        date_filter = create_date_filter(state.experiment_date_range)
+        config_dict["date_filter"] = date_filter
+        # define the target path on NERSC
+        target_path = "/global/cfs/cdirs/m558/superfacility/model_training"
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_file_path = Path(temp_dir) / "config.yaml"
+            with open(temp_file_path, "w") as temp_file:
+                yaml.dump(config_dict, temp_file)
+                temp_file.flush()
+            print("Uploading config file to NERSC")
+            upload_file_to_nersc(
+                PERLMUTTER_RESOURCE_ID,
+                target_path,
+                temp_file_path,
+                filename="config.yaml",
+            )
+
+        # set the path of the script used to submit the training job on NERSC
+        training_script = None
+        # multiple locations supported, to make development easier
+        #   container (production): script is in cwd
+        #   development, starting the gui app from dashboard/: script is in ../ml/
+        #   development, starting the gui app from the repo root dir: script is in ml/
+        script_locations = [Path.cwd(), Path.cwd() / "../ml", Path.cwd() / "ml"]
+        for script_dir in script_locations:
+            script_path = script_dir / "training_pm.sbatch"
+            if os.path.exists(script_path):
+                with open(script_path, "r") as file:
+                    training_script = file.read()
+                break
+        if training_script is None:
+            raise RuntimeError("Could not find training_pm.sbatch")
+
+        # replace the --model argument in the python command with the current model type from the state
+        training_script = re.sub(
+            pattern=r"--model \$\{model\}",
+            repl=rf"--model {model_type_tag_dict[state.model_type]}",
+            string=training_script,
+        )
+
+        # parse the batch script into a PSIJ JobSpec
+        job_spec = parse_sbatch_script(training_script)
+        # submit the training job through the IRI API
+        response = json.loads(
+            client.call_operation(
+                "launchJob",
+                path_params_json=json.dumps({"resource_id": PERLMUTTER_RESOURCE_ID}),
+                body_json=json.dumps(job_spec),
+            )
+        )
+        job_id = response["id"]
+        state.model_training_status = "Submitted"
+        state.flush()
+        # print some logs
+        print(f"Training job submitted (job ID: {job_id})")
+        return monitor_iri_job(
+            client, PERLMUTTER_RESOURCE_ID, job_id, "model_training_status"
+        )
+
     async def training_kernel(self):
         try:
-            # create an authenticated client
-            async with AsyncClient(
-                client_id=state.sfapi_client_id, secret=state.sfapi_key
-            ) as client:
-                perlmutter = await client.compute(Machine.perlmutter)
-                # upload the configuration file to NERSC
-                config_dict = load_config_dict(state.experiment)
-                config_dict["simulation_calibration"] = state.simulation_calibration
-                # add date range filter to the configuration dictionary
-                date_filter = create_date_filter(state.experiment_date_range)
-                config_dict["date_filter"] = date_filter
-                # define the target path on NERSC
-                target_path = "/global/cfs/cdirs/m558/superfacility/model_training"
-                [target_path] = await perlmutter.ls(target_path, directory=True)
-                with tempfile.TemporaryDirectory() as temp_dir:
-                    temp_file_path = Path(temp_dir) / "config.yaml"
-                    with open(temp_file_path, "w") as temp_file:
-                        yaml.dump(config_dict, temp_file)
-                        temp_file.flush()
-                    with open(temp_file_path, "rb") as temp_file:
-                        print("Uploading config file to NERSC")
-                        temp_file.filename = "config.yaml"
-                        await target_path.upload(temp_file)
-
-                # set the path of the script used to submit the training job on NERSC
-                training_script = None
-                # multiple locations supported, to make development easier
-                #   container (production): script is in cwd
-                #   development, starting the gui app from dashboard/: script is in ../ml/
-                #   development, starting the gui app from the repo root dir: script is in ml/
-                script_locations = [Path.cwd(), Path.cwd() / "../ml", Path.cwd() / "ml"]
-                for script_dir in script_locations:
-                    script_path = script_dir / "training_pm.sbatch"
-                    if os.path.exists(script_path):
-                        with open(script_path, "r") as file:
-                            training_script = file.read()
-                        break
-                if training_script is None:
-                    raise RuntimeError("Could not find training_pm.sbatch")
-
-                # replace the --model argument in the python command with the current model type from the state
-                training_script = re.sub(
-                    pattern=r"--model \$\{model\}",
-                    repl=rf"--model {model_type_tag_dict[state.model_type]}",
-                    string=training_script,
-                )
-
-                # submit the training job through the Superfacility API
-                sfapi_job = await perlmutter.submit_job(training_script)
-                state.model_training_status = "Submitted"
-                state.flush()
-                # print some logs
-                print(f"Training job submitted (job ID: {sfapi_job.jobid})")
-                return await monitor_sfapi_job(sfapi_job, "model_training_status")
+            return await asyncio.to_thread(self._training_kernel_blocking)
         except Exception as e:
             title = "Unable to complete training kernel"
             msg = f"Error occurred when executing training kernel: {e}"
@@ -310,7 +329,7 @@ class ModelManager:
                                 "Train",
                                 click=self.training_trigger,
                                 disabled=(
-                                    "model_training || perlmutter_status != 'active'",
+                                    "model_training || perlmutter_status != 'up'",
                                 ),
                                 style="text-transform: none",
                             )

@@ -1,16 +1,21 @@
 import asyncio
 import copy
+import json
 import tempfile
 import yaml
 from datetime import datetime
 from pathlib import Path
-from sfapi_client import AsyncClient
-from sfapi_client.compute import Machine
 from trame.widgets import client, vuetify3 as vuetify
 from utils import load_variables
 from calibration_manager import SimulationCalibrationManager
 from error_manager import add_error
-from sfapi_manager import monitor_sfapi_job
+from sfapi_manager import (
+    create_iri_client,
+    monitor_iri_job,
+    parse_sbatch_script,
+    upload_file_to_nersc,
+    PERLMUTTER_RESOURCE_ID,
+)
 from state_manager import state, EXPERIMENTS_PATH
 
 
@@ -59,55 +64,62 @@ class ParametersManager:
         # push again at flush time
         state.dirty("parameters")
 
+    def _simulation_kernel_blocking(self):
+        """Blocking implementation of the simulation kernel using iri_client."""
+        client = create_iri_client()
+
+        # set the target path where auxiliary files will be copied
+        target_path = f"/global/cfs/cdirs/m558/superfacility/simulation_running/{state.experiment}/templates"
+        # set the base path where auxiliary files are copied from
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # store the current simulation parameters in a YAML temporary file
+            temp_file_path = Path(temp_dir) / "single_simulation_parameters.yaml"
+            _, _, simulation_calibration = load_variables(state.experiment)
+            sim_cal = SimulationCalibrationManager(simulation_calibration)
+            sim_dict = sim_cal.convert_exp_to_sim(state.parameters)
+            with open(temp_file_path, "w") as temp_file:
+                yaml.dump(sim_dict, temp_file)
+                temp_file.flush()
+            # set the source path where auxiliary files are copied from
+            source_paths = [
+                file
+                for file in (self.simulation_scripts_base_path / "templates/").rglob(
+                    "*"
+                )
+                if file.is_file()
+            ] + [temp_file_path]
+            # copy auxiliary files to NERSC
+            for path in source_paths:
+                print(f"Uploading file to NERSC: {path}")
+                upload_file_to_nersc(PERLMUTTER_RESOURCE_ID, target_path, path)
+        # set the path of the script used to submit the simulation job on NERSC
+        with open(
+            self.simulation_scripts_base_path / "submission_script_single", "r"
+        ) as file:
+            submission_script = file.read()
+        # parse the batch script into a PSIJ JobSpec
+        job_spec = parse_sbatch_script(submission_script)
+        # submit the simulation job through the IRI API
+        print("Submitting job to NERSC")
+        response = json.loads(
+            client.call_operation(
+                "launchJob",
+                path_params_json=json.dumps({"resource_id": PERLMUTTER_RESOURCE_ID}),
+                body_json=json.dumps(job_spec),
+            )
+        )
+        job_id = response["id"]
+        state.simulation_running_status = "Submitted"
+        state.flush()
+        # print some logs
+        print(f"Simulation job submitted (job ID: {job_id})")
+        return monitor_iri_job(
+            client, PERLMUTTER_RESOURCE_ID, job_id, "simulation_running_status"
+        )
+
     async def simulation_kernel(self):
         try:
-            # create an authenticated client
-            async with AsyncClient(
-                client_id=state.sfapi_client_id, secret=state.sfapi_key
-            ) as client:
-                perlmutter = await client.compute(Machine.perlmutter)
-                # set the target path where auxiliary files will be copied
-                target_path = f"/global/cfs/cdirs/m558/superfacility/simulation_running/{state.experiment}/templates"
-                [target_path] = await perlmutter.ls(target_path, directory=True)
-                # set the base path where auxiliary files are copied from
-                with tempfile.TemporaryDirectory() as temp_dir:
-                    # store the current simulation parameters in a YAML temporary file
-                    temp_file_path = (
-                        Path(temp_dir) / "single_simulation_parameters.yaml"
-                    )
-                    _, _, simulation_calibration = load_variables(state.experiment)
-                    sim_cal = SimulationCalibrationManager(simulation_calibration)
-                    sim_dict = sim_cal.convert_exp_to_sim(state.parameters)
-                    with open(temp_file_path, "w") as temp_file:
-                        yaml.dump(sim_dict, temp_file)
-                        temp_file.flush()
-                    # set the source path where auxiliary files are copied from
-                    source_paths = [
-                        file
-                        for file in (
-                            self.simulation_scripts_base_path / "templates/"
-                        ).rglob("*")
-                        if file.is_file()
-                    ] + [temp_file_path]
-                    # copy auxiliary files to NERSC
-                    for path in source_paths:
-                        print(f"Uploading file to NERSC: {path}")
-                        with open(path, "rb") as f:
-                            f.filename = path.name
-                            await target_path.upload(f)
-                # set the path of the script used to submit the simulation job on NERSC
-                with open(
-                    self.simulation_scripts_base_path / "submission_script_single", "r"
-                ) as file:
-                    submission_script = file.read()
-                # submit the simulation job through the Superfacility API
-                print("Submitting job to NERSC")
-                sfapi_job = await perlmutter.submit_job(submission_script)
-                state.simulation_running_status = "Submitted"
-                state.flush()
-                # print some logs
-                print(f"Simulation job submitted (job ID: {sfapi_job.jobid})")
-                return await monitor_sfapi_job(sfapi_job, "simulation_running_status")
+            return await asyncio.to_thread(self._simulation_kernel_blocking)
         except Exception as e:
             title = "Unable to complete simulation kernel"
             msg = f"Error occurred when executing simulation kernel: {e}"
@@ -241,7 +253,7 @@ class ParametersManager:
                                             "Simulate",
                                             click=self.simulation_trigger,
                                             disabled=(
-                                                "simulation_running || perlmutter_status != 'active' || !simulatable",
+                                                "simulation_running || perlmutter_status != 'up' || !simulatable",
                                             ),
                                             style="text-transform: none;",
                                         )
