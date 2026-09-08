@@ -7,7 +7,12 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Synapse"
-copyright = "BSD-3-Clause-LBNL"
+# Rendered by sphinx-book-theme as "© Copyright ..." in the page footer, so
+# this is the copyright holder from LICENSE.txt, not the license identifier.
+copyright = (
+    "2025, The Regents of the University of California, "
+    "through Lawrence Berkeley National Laboratory"
+)
 # An empty value prevents sphinx-book-theme from rendering an author footer.
 author = ""
 
