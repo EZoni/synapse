@@ -1,14 +1,12 @@
 # ML Training
 
-Synapse's ML training is implemented primarily in `ml/train_model.py`.
+Synapse's ML training is implemented primarily in `ml/train_model.py`. It reads the configuration and MongoDB records, trains a model, wraps it with `lume-model`, and optionally registers it in MLflow.
 
 ML models can be trained in two distinct ways:
 
 1. Locally on your computer.
 
 2. At NERSC, either manually or through the dashboard.
-
-It reads the configuration and MongoDB records, trains a model, wraps it with `lume-model`, and optionally registers it in MLflow.
 
 ## Train ML Models Locally
 
