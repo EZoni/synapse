@@ -1,6 +1,6 @@
 # ML Training
 
-Synapse's ML training is implemented primarily in `ml/train_model.py`. It reads the configuration and MongoDB records, trains a model, wraps it with `lume-model`, and optionally registers it in MLflow.
+Synapse's ML training is implemented primarily in {repo}`ml/train_model.py`. It reads the configuration and MongoDB records, trains a model, wraps it with `lume-model`, and optionally registers it in MLflow.
 
 ML models can be trained in two distinct ways:
 
@@ -60,7 +60,7 @@ This section describes how to train ML models locally.
 
 #### Test the full train/save/load cycle: `test_ml_pipeline.py`
 
-`tests/test_ml_pipeline.py` exercises the full ML lifecycle: training → upload to MLflow → download → accuracy check. It requires a local, empty MLflow server so it does not touch a production server.
+{repo}`tests/test_ml_pipeline.py` exercises the full ML lifecycle: training → upload to MLflow → download → accuracy check. It requires a local, empty MLflow server so it does not touch a production server.
 
 1. Start a local MLflow server, e.g. with Docker:
    ```bash
@@ -136,7 +136,7 @@ This section describes how to train ML models at NERSC.
 ### Manually with Docker
 
 ```{warning}
-The Docker container is pulled from the [NERSC registry](https://registry.nersc.gov) and does not reflect any local changes you may have made to `train_model.py` unless you rebuild and redeploy the container first.
+The Docker container is pulled from the [NERSC registry](https://registry.nersc.gov) and does not reflect any local changes you may have made to {repo}`train_model.py <ml/train_model.py>` unless you rebuild and redeploy the container first.
 ```
 
 1. Log in to Perlmutter:
@@ -181,7 +181,7 @@ Use `--model` with one of:
 
 - `GP`: Gaussian Process.
 - `NN`: single neural network.
-- `ensemble_NN`: ensemble neural network. The current ensemble size is defined in `train_nn_ensemble()` in `ml/train_model.py`.
+- `ensemble_NN`: ensemble neural network. The current ensemble size is defined in `train_nn_ensemble()` in {repo}`ml/train_model.py`.
 
 ## Command
 
@@ -247,7 +247,7 @@ Currently, this is the only way to test the end-to-end integration of the dashbo
 ```
 
 ````{tip}
-Run this workflow automatically with the Python script `publish_container.py`:
+Run this workflow automatically with the Python script {repo}`publish_container.py`:
 ```bash
 python publish_container.py --ml
 ```

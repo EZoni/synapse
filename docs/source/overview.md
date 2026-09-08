@@ -33,20 +33,20 @@ This directory is mounted on the container image running on Spin.
 ML models can be trained by launching jobs on Perlmutter from the GUI, through the [NERSC Superfacility API](https://docs.nersc.gov/services/sfapi/). The application requires the following:
 
 - **Superfacility API credential file**: Instructions on generating and uploading the credential file from the GUI are in [Dashboard](dashboard.md).
-- **Submission script**: The batch script `ml/training_pm.sbatch` is copied into the container image pushed to the NERSC registry and deployed through Spin (see `dashboard.Dockerfile`). It serves as a template for Superfacility API job submission when users launch model training from the GUI.
-- **Python scripts and configuration files**: These include `ml/train_model.py`, `ml/Neural_Net_Classes.py`, and the experiment configuration file `config.yaml`.
-The Python scripts are copied into the ML container image pushed to the NERSC registry (see `ml.Dockerfile`), and the Superfacility API job runs them from inside that image on Perlmutter, at `/app/ml/`.
+- **Submission script**: The batch script {repo}`ml/training_pm.sbatch` is copied into the container image pushed to the NERSC registry and deployed through Spin (see {repo}`dashboard.Dockerfile`). It serves as a template for Superfacility API job submission when users launch model training from the GUI.
+- **Python scripts and configuration files**: These include {repo}`ml/train_model.py`, {repo}`ml/Neural_Net_Classes.py`, and the experiment configuration file `config.yaml`.
+The Python scripts are copied into the ML container image pushed to the NERSC registry (see {repo}`ml.Dockerfile`), and the Superfacility API job runs them from inside that image on Perlmutter, at `/app/ml/`.
 When users launch model training from the GUI, only `config.yaml` is copied to the Perlmutter shared file system, at `/global/cfs/cdirs/m558/superfacility/model_training/`, where the batch job mounts it into the container. The `config.yaml` file is automatically populated with the configuration values specified in the GUI before being copied to the shared file system.
 
 ## Workflow
 
 The main source areas are:
 
-- `dashboard/`: a Trame web application for exploring experiments, simulations, model predictions, optimization, calibration, and NERSC job controls.
-- `ml/`: model training code for Gaussian Process, single Neural Network, and Neural Network ensemble models.
-- `experiments/`: experiment-specific configuration and scripts, usually cloned from private repositories.
-- `tests/`: integration checks for the ML pipeline.
-- `docs/`: Sphinx documentation source.
+- {repo-dir}`dashboard/`: a Trame web application for exploring experiments, simulations, model predictions, optimization, calibration, and NERSC job controls.
+- {repo-dir}`ml/`: model training code for Gaussian Process, single Neural Network, and Neural Network ensemble models.
+- {repo-dir}`experiments/`: experiment-specific configuration and scripts, usually cloned from private repositories.
+- {repo-dir}`tests/`: integration checks for the ML pipeline.
+- {repo-dir}`docs/`: Sphinx documentation source.
 
 The typical workflow is:
 
@@ -81,5 +81,5 @@ docs/           Sphinx documentation source
 
 Synapse is distributed under the `BSD-3-Clause-LBNL` license. The copyright notice
 and license agreement are in the
-[README](https://github.com/BLAST-AI-ML/synapse/blob/main/README.md#copyright-notice-and-license-agreement),
-with the full text in `NOTICE.txt` and `LICENSE.txt` at the root of the repository.
+{repo}`README <README.md#copyright-notice-and-license-agreement>`,
+with the full text in {repo}`NOTICE.txt` and {repo}`LICENSE.txt` at the root of the repository.

@@ -12,8 +12,8 @@ Ruff runs with its default rule set; there is no `pyproject.toml` or `ruff.toml`
 
 ## Environments
 
-- Dashboard dependencies live in `dashboard/environment.yml`.
-- ML dependencies live in `ml/environment.yml`.
+- Dashboard dependencies live in {repo}`dashboard/environment.yml`.
+- ML dependencies live in {repo}`ml/environment.yml`.
 - Regenerate the corresponding `environment-lock.yml` after dependency changes.
 
 ## Documentation
@@ -49,4 +49,4 @@ It requires a local MLflow server.
 
 - Dashboard features use manager classes in `dashboard/*_manager.py`.
 - Experiment-specific behavior belongs under `experiments/synapse-*`.
-- Shared dashboard helpers live in `dashboard/utils.py`.
+- Shared dashboard helpers live in {repo}`dashboard/utils.py`.

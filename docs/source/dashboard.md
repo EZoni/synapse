@@ -8,7 +8,7 @@ The dashboard can be run in two distinct ways:
 
 2. At NERSC through Spin.
 
-The dashboard is a Trame application rooted in `dashboard/app.py`.
+The dashboard is a Trame application rooted in {repo}`dashboard/app.py`.
 It discovers experiments from the subdirectories of `experiments/`, stripping the `synapse-` prefix from each directory name, reads each experiment's `config.yaml`, connects to MongoDB, loads MLflow models, and builds the GUI used to inspect data and launch jobs.
 
 ## Run the Dashboard Locally
@@ -117,15 +117,15 @@ Follow the instructions at [docs.nersc.gov/services/sfapi/authentication/#client
 
 ## Main Managers
 
-- `state_manager.py`: shared Trame server, state, controller, and startup defaults.
-- `model_manager.py`: MLflow model lookup, download, evaluation, and model training launch.
-- `parameters_manager.py`: input sliders, parameter bounds, and single-simulation launch.
-- `outputs_manager.py`: displayed output selection.
-- `optimization_manager.py`: model-based input optimization with SciPy.
-- `calibration_manager.py`: conversion between simulation and experiment variables, in both directions.
-- `sfapi_manager.py`: Superfacility API credential upload, Perlmutter status, and job monitoring.
-- `error_manager.py`: user-visible error collection.
-- `utils.py`: config loading, database access, date filters, and Plotly figures.
+- {repo}`state_manager.py <dashboard/state_manager.py>`: shared Trame server, state, controller, and startup defaults.
+- {repo}`model_manager.py <dashboard/model_manager.py>`: MLflow model lookup, download, evaluation, and model training launch.
+- {repo}`parameters_manager.py <dashboard/parameters_manager.py>`: input sliders, parameter bounds, and single-simulation launch.
+- {repo}`outputs_manager.py <dashboard/outputs_manager.py>`: displayed output selection.
+- {repo}`optimization_manager.py <dashboard/optimization_manager.py>`: model-based input optimization with SciPy.
+- {repo}`calibration_manager.py <dashboard/calibration_manager.py>`: conversion between simulation and experiment variables, in both directions.
+- {repo}`sfapi_manager.py <dashboard/sfapi_manager.py>`: Superfacility API credential upload, Perlmutter status, and job monitoring.
+- {repo}`error_manager.py <dashboard/error_manager.py>`: user-visible error collection.
+- {repo}`utils.py <dashboard/utils.py>`: config loading, database access, date filters, and Plotly figures.
 
 ## Views
 
@@ -173,7 +173,7 @@ Pushing a new Docker container affects the production dashboard deployed through
 ```
 
 ````{tip}
-Run this workflow automatically with the Python script `publish_container.py`:
+Run this workflow automatically with the Python script {repo}`publish_container.py`:
 ```bash
 python publish_container.py --gui
 ```
