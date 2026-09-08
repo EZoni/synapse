@@ -184,7 +184,7 @@ Use `--model` with one of:
 - `GP`: Gaussian Process.
 - `NN`: single neural network.
 - `ensemble_NN`: ensemble neural network.
-The current ensemble size is defined in `train_nn_ensemble()` in {repo}`ml/train_model.py`.
+  The current ensemble size is defined in `train_nn_ensemble()` in {repo}`ml/train_model.py`.
 
 ## Command
 

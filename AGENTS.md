@@ -55,7 +55,7 @@ Always run `pre-commit run --files <modified files>` before committing changes.
 
 ### Markdown in `docs/source/`
 
-Documentation uses **semantic line breaks**: one sentence per line, and never wrap mid-sentence. Lines may be as long as the sentence requires — do not reflow prose to a fixed column width. This keeps diffs limited to the sentences that actually changed. Continuation sentences inside an ordered list item are indented to align with the item text (3 spaces).
+Documentation uses **semantic line breaks**: one sentence per line, and never wrap mid-sentence. Lines may be as long as the sentence requires — do not reflow prose to a fixed column width. This keeps diffs limited to the sentences that actually changed. Continuation sentences inside a list item are indented to align with the item text: 3 spaces in ordered lists (`1. `), 2 spaces in unordered lists (`- `).
 
 ## Building
 
