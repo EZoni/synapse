@@ -3,7 +3,7 @@
 An experiment is a directory named `experiments/synapse-<experiment>/`.
 The dashboard strips `synapse-` and uses the rest as the experiment identifier.
 
-Clone the private repository for your experiment into the `experiments/` directory.
+Clone the private repository for your experiment into the {repo-dir}`experiments/` directory.
 
 Each experiment should provide:
 

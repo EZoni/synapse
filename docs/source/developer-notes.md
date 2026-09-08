@@ -2,7 +2,7 @@
 
 ## Style
 
-Python code is linted and formatted with Ruff through pre-commit:
+Python code is linted and formatted with Ruff through the pre-commit hooks in {repo}`.pre-commit-config.yaml`:
 
 ```bash
 pre-commit run --files <modified files>
@@ -18,7 +18,7 @@ Ruff runs with its default rule set; there is no `pyproject.toml` or `ruff.toml`
 
 ## Documentation
 
-Create the documentation conda environment once from `docs/`:
+Create the documentation conda environment once, from {repo-dir}`docs/`, using {repo}`docs.yml <docs/docs.yml>`:
 
 ```bash
 conda env create -f docs.yml
@@ -37,7 +37,7 @@ The generated HTML is written to `docs/build/html/`.
 ## Testing
 
 The project does not have a full pytest suite.
-The main integration check is:
+The main integration check is {repo}`tests/test_ml_pipeline.py`:
 
 ```bash
 python tests/test_ml_pipeline.py

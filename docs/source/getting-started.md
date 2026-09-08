@@ -1,10 +1,10 @@
 # Getting started
 
-For a reproducible installation, use `environment-lock.yml` rather than the unpinned `environment.yml`.
+For a reproducible installation, use the pinned `environment-lock.yml` of {repo-dir}`dashboard/` or {repo-dir}`ml/` rather than the unpinned `environment.yml`.
 
 ## Dashboard
 
-From `dashboard/`:
+From {repo-dir}`dashboard/`, launch {repo}`app.py <dashboard/app.py>`:
 
 ```bash
 conda-lock install --name synapse-gui environment-lock.yml
@@ -24,11 +24,11 @@ ssh -L 27017:mongodb05.nersc.gov:27017 <username>@dtn03.nersc.gov -N
 ## ML training
 
 Training requires an experiment configuration. Experiment configs are not part of this
-repository: clone the private repository for your experiment into `experiments/` first, so
+repository: clone the private repository for your experiment into {repo-dir}`experiments/` first, so
 that `experiments/synapse-<experiment>/config.yaml` exists. See
 [Experiment configuration](experiment-configuration.md) for the expected layout.
 
-From `ml/`:
+From {repo-dir}`ml/`, run {repo}`train_model.py <ml/train_model.py>`:
 
 ```bash
 conda-lock install --name synapse-ml environment-lock.yml

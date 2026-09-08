@@ -4,7 +4,7 @@ Synapse is deployed using Docker images and NERSC services.
 
 ## Dashboard image
 
-From the repository root:
+From the repository root, build the image defined in {repo}`dashboard.Dockerfile`:
 
 ```bash
 docker build --platform linux/amd64 --output type=image,oci-mediatypes=true -t synapse-gui -f dashboard.Dockerfile .
@@ -12,7 +12,7 @@ docker build --platform linux/amd64 --output type=image,oci-mediatypes=true -t s
 
 ## ML image
 
-From the repository root:
+From the repository root, build the image defined in {repo}`ml.Dockerfile`:
 
 ```bash
 docker build --platform linux/amd64 --output type=image,oci-mediatypes=true -t synapse-ml -f ml.Dockerfile .
@@ -21,6 +21,8 @@ docker build --platform linux/amd64 --output type=image,oci-mediatypes=true -t s
 The two build commands differ only by image tag and Dockerfile.
 
 ## Publish helper
+
+{repo}`publish_container.py` builds and pushes both images:
 
 ```bash
 python publish_container.py --gui --ml

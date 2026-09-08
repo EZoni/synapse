@@ -16,7 +16,7 @@ This section describes how to train ML models locally.
 
 #### Prepare the conda environment
 
-1. Move to the `ml/` directory.
+1. Move to the {repo-dir}`ml/` directory.
 
 2. Activate the conda environment `base`:
    ```bash
@@ -28,7 +28,7 @@ This section describes how to train ML models locally.
    conda install -c conda-forge conda-lock
    ```
 
-4. Create the conda environment `synapse-ml`:
+4. Create the conda environment `synapse-ml` from {repo}`environment-lock.yml <ml/environment-lock.yml>`:
    ```bash
    conda-lock install --name synapse-ml environment-lock.yml
    ```
@@ -40,7 +40,7 @@ This section describes how to train ML models locally.
    ssh -L 27017:mongodb05.nersc.gov:27017 <username>@dtn03.nersc.gov -N
    ```
 
-2. Move to the `ml/` directory.
+2. Move to the {repo-dir}`ml/` directory.
 
 3. Set up the database settings (read-only) and the AmSC MLflow API key:
    ```bash
@@ -94,7 +94,7 @@ This section describes how to train ML models at NERSC.
 
 #### Prepare the conda environment
 
-1. Move to the `ml/` directory.
+1. Move to the {repo-dir}`ml/` directory.
 
 2. Activate your own user base conda environment:
    ```bash
@@ -107,14 +107,14 @@ This section describes how to train ML models at NERSC.
    conda install -c conda-forge conda-lock
    ```
 
-4. Create the conda environment `synapse-ml`:
+4. Create the conda environment `synapse-ml` from {repo}`environment-lock.yml <ml/environment-lock.yml>`:
    ```bash
    conda-lock install --name synapse-ml environment-lock.yml
    ```
 
 #### Run the training
 
-1. Move to the `ml/` directory.
+1. Move to the {repo-dir}`ml/` directory.
 
 2. Set up the database settings (read-only) and the AmSC MLflow API key:
    ```bash
@@ -222,7 +222,7 @@ synapse-<experiment>
 
 ### Generate the conda environment lock file
 
-1. Move to the directory `ml/`.
+1. Move to the directory {repo-dir}`ml/`.
 
 2. Activate the conda environment `base`:
    ```bash
@@ -234,7 +234,7 @@ synapse-<experiment>
    conda install -c conda-forge conda-lock
    ```
 
-4. Generate the conda environment lock file:
+4. Generate the conda environment lock file from {repo}`environment.yml <ml/environment.yml>` and {repo}`virtual-packages.yml <ml/virtual-packages.yml>`:
    ```bash
    conda-lock --file environment.yml --virtual-package-spec virtual-packages.yml --lockfile environment-lock.yml
    ```
@@ -271,7 +271,7 @@ docker --version
 
 1. Move to the root directory of the repository.
 
-2. Build the Docker image:
+2. Build the Docker image defined in {repo}`ml.Dockerfile`:
    ```bash
    docker build --platform linux/amd64 --output type=image,oci-mediatypes=true -t synapse-ml -f ml.Dockerfile .
    ```

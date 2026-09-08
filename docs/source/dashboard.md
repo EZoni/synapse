@@ -9,7 +9,7 @@ The dashboard can be run in two distinct ways:
 2. At NERSC through Spin.
 
 The dashboard is a Trame application rooted in {repo}`dashboard/app.py`.
-It discovers experiments from the subdirectories of `experiments/`, stripping the `synapse-` prefix from each directory name, reads each experiment's `config.yaml`, connects to MongoDB, loads MLflow models, and builds the GUI used to inspect data and launch jobs.
+It discovers experiments from the subdirectories of {repo-dir}`experiments/`, stripping the `synapse-` prefix from each directory name, reads each experiment's `config.yaml`, connects to MongoDB, loads MLflow models, and builds the GUI used to inspect data and launch jobs.
 
 ## Run the dashboard locally
 
@@ -19,7 +19,7 @@ This section describes how to develop and use the dashboard locally.
 
 #### Prepare the conda environment
 
-1. Move to the `dashboard/` directory.
+1. Move to the {repo-dir}`dashboard/` directory.
 
 2. Activate the conda environment `base`:
 ```bash
@@ -31,7 +31,7 @@ conda activate base
 conda install -c conda-forge conda-lock
 ```
 
-4. Create the conda environment `synapse-gui`:
+4. Create the conda environment `synapse-gui` from {repo}`environment-lock.yml <dashboard/environment-lock.yml>`:
 ```bash
 conda-lock install --name synapse-gui environment-lock.yml
 ```
@@ -43,7 +43,7 @@ conda-lock install --name synapse-gui environment-lock.yml
    ssh -L 27017:mongodb05.nersc.gov:27017 <username>@dtn03.nersc.gov -N
    ```
 
-2. Move to the `dashboard/` directory.
+2. Move to the {repo-dir}`dashboard/` directory.
 
 3. Set up the database settings (read-only) and the AmSC MLflow API key:
    ```bash
@@ -149,7 +149,7 @@ The file must be PEM-formatted and include the Superfacility API client ID as th
 
 ### Generate the conda environment lock file
 
-1. Move to the directory `dashboard/`.
+1. Move to the directory {repo-dir}`dashboard/`.
 
 2. Activate the conda environment `base`:
    ```bash
@@ -161,7 +161,7 @@ The file must be PEM-formatted and include the Superfacility API client ID as th
    conda install -c conda-forge conda-lock
    ```
 
-4. Generate the conda environment lock file:
+4. Generate the conda environment lock file from {repo}`environment.yml <dashboard/environment.yml>`:
    ```bash
    conda-lock --file environment.yml --lockfile environment-lock.yml
    ```
@@ -190,7 +190,7 @@ docker system prune -a
 
 1. Move to the root directory of the repository.
 
-2. Build the Docker image:
+2. Build the Docker image defined in {repo}`dashboard.Dockerfile`:
    ```bash
    docker build --platform linux/amd64 --output type=image,oci-mediatypes=true -t synapse-gui -f dashboard.Dockerfile .
    ```
