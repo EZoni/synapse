@@ -47,10 +47,14 @@ html_theme_options = {
     # titles_only=True, so navbar depth cannot expose in-page headings there.
     "show_navbar_depth": 1,
     "max_navbar_depth": 1,
-    # In-page navigation lives in the right-hand "Contents" sidebar. Expand it
-    # to h3 on load so that long pages such as ml-training.md are navigable
-    # without having to scroll into a section first.
-    "show_toc_level": 2,
+    # In-page navigation lives in the right-hand "Contents" sidebar. The level
+    # counts from the h2 entries below the page title, so this expands it to h4
+    # on load: on the long pages, dashboard.md and ml-training.md, the steps a
+    # reader scans for ("Prepare the conda environment", "Run the training",
+    # "Build the Docker image") are h4, and stopping at h3 hides them until the
+    # surrounding section is scrolled into view. This matches the h4 depth of
+    # myst_heading_anchors above, so every entry in the sidebar is linkable.
+    "show_toc_level": 3,
 }
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
