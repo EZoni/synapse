@@ -79,14 +79,7 @@ docs/           Sphinx documentation source
 
 ## Copyright Notice and License Agreement
 
-Synapse v1.0 Copyright (c) 2025, The Regents of the University of California,
-through Lawrence Berkeley National Laboratory (subject to receipt of
-any required approvals from the U.S. Dept. of Energy). All rights reserved.
-
-If you have questions about your rights to use or distribute this software,
-please contact Berkeley Lab's Intellectual Property Office at
-IPO@lbl.gov.
-
-Please find the full copyright notice in `NOTICE.txt` and the full license agreement in `LICENSE.txt`.
-
-The SPDX license identifier is `BSD-3-Clause-LBNL`.
+Synapse is distributed under the `BSD-3-Clause-LBNL` license. The copyright notice
+and license agreement are in the
+[README](https://github.com/BLAST-AI-ML/synapse/blob/main/README.md#copyright-notice-and-license-agreement),
+with the full text in `NOTICE.txt` and `LICENSE.txt` at the root of the repository.
