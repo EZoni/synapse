@@ -102,7 +102,7 @@ This section describes how to train ML models at NERSC.
    conda activate <your_base_env>
    ```
 
-3. Install `conda-lock` if not installed yet:
+3. Install `conda-lock` if it is not already installed:
    ```bash
    conda install -c conda-forge conda-lock
    ```
@@ -229,7 +229,7 @@ synapse-<experiment>
    conda activate base
    ```
 
-3. Install `conda-lock` if not installed yet:
+3. Install `conda-lock` if it is not already installed:
    ```bash
    conda install -c conda-forge conda-lock
    ```

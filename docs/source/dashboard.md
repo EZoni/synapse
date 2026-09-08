@@ -156,7 +156,7 @@ The file must be PEM-formatted and include the Superfacility API client ID as th
    conda activate base
    ```
 
-3. Install `conda-lock` if not installed yet:
+3. Install `conda-lock` if it is not already installed:
    ```bash
    conda install -c conda-forge conda-lock
    ```
