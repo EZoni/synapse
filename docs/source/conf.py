@@ -15,7 +15,7 @@ author = ""
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = ["myst_parser", "sphinx_copybutton"]
-myst_heading_anchors = 2
+myst_heading_anchors = 4
 
 templates_path = ["_templates"]
 exclude_patterns = []
