@@ -61,7 +61,7 @@ This section describes how to train ML models locally.
 
 #### Test the full train/save/load cycle: `test_ml_pipeline.py`
 
-{repo}`tests/test_ml_pipeline.py` exercises the full ML lifecycle: training → upload to MLflow → download → accuracy check.
+{repo}`tests/test_ml_pipeline.py` exercises the full ML lifecycle: training, upload to MLflow, download, and accuracy check.
 It requires a local, empty MLflow server so it does not touch a production server.
 
 1. Start a local MLflow server, e.g. with Docker:
