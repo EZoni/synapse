@@ -21,7 +21,7 @@ The dashboard uses these when present:
 - `date`: filtering and hover text for experimental records.
 - `scan_number`: hover text.
 - `shot_number`: hover text.
-- `_id`: hover text and lookup for linked simulation media, such as MP4 files described in [Simulation outputs](simulations.md#simulation-outputs).
+- `_id`: hover text, and the key the dashboard uses to fetch the clicked record, whose `data_directory` then locates the linked simulation media, such as MP4 files described in [Simulation outputs](simulations.md#simulation-outputs).
 
 ## Date filtering
 
