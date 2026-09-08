@@ -9,7 +9,7 @@ The dashboard can be run in two distinct ways:
 2. At NERSC through Spin.
 
 The dashboard is a Trame application rooted in `dashboard/app.py`.
-It discovers experiments from `experiments/synapse-*`, reads each experiment's `config.yaml`, connects to MongoDB, loads MLflow models, and builds the GUI used to inspect data and launch jobs.
+It discovers experiments from the subdirectories of `experiments/`, stripping the `synapse-` prefix from each directory name, reads each experiment's `config.yaml`, connects to MongoDB, loads MLflow models, and builds the GUI used to inspect data and launch jobs.
 
 ## Run the Dashboard Locally
 
@@ -122,16 +122,23 @@ Follow the instructions at [docs.nersc.gov/services/sfapi/authentication/#client
 - `parameters_manager.py`: input sliders, parameter bounds, and single-simulation launch.
 - `outputs_manager.py`: displayed output selection.
 - `optimization_manager.py`: model-based input optimization with SciPy.
-- `calibration_manager.py`: simulation-to-experiment variable conversion.
+- `calibration_manager.py`: conversion between simulation and experiment variables, in both directions.
 - `sfapi_manager.py`: Superfacility API credential upload, Perlmutter status, and job monitoring.
 - `error_manager.py`: user-visible error collection.
 - `utils.py`: config loading, database access, date filters, and Plotly figures.
 
 ## Views
 
-- `/`: experiment selection, plots, parameter controls, optimization, ML controls, calibration controls, and errors.
-- `/hpc`: NERSC Superfacility API credential and Perlmutter status panel.
-- `/chat`: embedded assistant route for experiment support; currently backed by [synapse-chat.lbl.gov](https://synapse-chat.lbl.gov/).
+The dashboard has three routes, reachable from the navigation drawer:
+
+- `/` ("Digital Twin Prototype"): the plots card, next to a tab group with three tabs.
+  The `Parameters` tab holds the displayed output selector, the input parameter controls, and the plot depth control.
+  The `Optimization` tab holds the optimization controls.
+  The `ML` tab holds the model controls and the calibration controls.
+- `/hpc` ("HPC Connection"): NERSC Superfacility API credential and Perlmutter status panel.
+- `/chat` ("AI Assistant"): embedded assistant route for experiment support; currently backed by [synapse-chat.lbl.gov](https://synapse-chat.lbl.gov/).
+
+The experiment selector, the date range selector, and the error panel belong to the shared layout rather than to any single route, so they appear on all three.
 
 ## NERSC Credentials
 

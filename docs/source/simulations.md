@@ -14,7 +14,7 @@ experiments/synapse-<experiment>/simulation_scripts/
     ...
 ```
 
-If `submission_script_single` exists, the dashboard enables the `Simulate` button.
+The dashboard enables the `Simulate` button only when all three of the following hold: `submission_script_single` exists, Perlmutter reports status `active`, and no dashboard-launched simulation is already running.
 Before submission, it writes the current dashboard parameters to `single_simulation_parameters.yaml` after converting experimental variables to simulation variables.
 
 ## Submission Flow
@@ -43,6 +43,7 @@ Field names should match either the experiment config outputs or the configured 
 
 When a simulation record includes a `data_directory` under
 `/global/cfs/cdirs/m558/superfacility/simulation_data`, the dashboard can link the
-record to an MP4 file in that directory's `plots/` subdirectory. Simulation movie
-support is optional because the experiment's simulation scripts must create the
-record and its corresponding files.
+record to a plot file in that directory's `plots/` subdirectory. It prefers a single
+MP4 file and otherwise falls back to the last PNG file whose name contains
+`iteration`. This support is optional because the experiment's simulation scripts
+must create the record and its corresponding files.

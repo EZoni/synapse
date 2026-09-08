@@ -191,14 +191,18 @@ python train_model.py --config_file ../experiments/synapse-bella-ip2/config.yaml
 
 Use `--test` to skip MLflow registration.
 
-## Phases
+## Steps
 
 1. Load config, variables, database records, and MLflow settings.
 2. Build calibration and normalization transforms.
-3. Train on simulation data.
-4. Train the [calibration](experiment-configuration.md#calibration) on experimental data when available.
+3. Train on simulation data. The script logs this step as `Phase 1`.
+4. Train the [calibration](experiment-configuration.md#calibration) on experimental data when available. The script logs this step as `Phase 2`, and skips it when no experimental data is found.
 5. Build a `lume-model`.
-6. Register to MLflow unless `--test` is set.
+6. Register to MLflow, unless `--test` is set or the configuration file has no `mlflow.tracking_uri`.
+
+```{note}
+The script's own `Phase 1` and `Phase 2` log messages refer to steps 3 and 4 above, not to steps 1 and 2.
+```
 
 ## MLflow Names
 
