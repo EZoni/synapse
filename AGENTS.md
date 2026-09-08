@@ -21,6 +21,10 @@ synapse/
 │   ├── environment.yml     # Conda dependencies for ML
 │   └── environment-lock.yml
 ├── experiments/            # Experiment configs (cloned from private repos)
+├── docs/                   # Sphinx documentation
+│   ├── source/             # Markdown/reST sources (semantic line breaks)
+│   ├── docs.yml            # Conda environment for building the docs
+│   └── Makefile            # Sphinx build entry point (`make html`)
 ├── tests/                  # Integration tests (ML pipeline)
 │   ├── test_ml_pipeline.py # Full ML training pipeline test
 │   └── check_model.py      # Model checking utility
@@ -55,7 +59,11 @@ Documentation uses **semantic line breaks**: one sentence per line, and never wr
 
 ## Building
 
-There is no traditional build step (no `setup.py`, `pyproject.toml`, or `Makefile`). The project runs directly as Python scripts within Conda environments and is containerized via Docker for deployment.
+There is no traditional build step for the Python code (no `setup.py` or `pyproject.toml`, and no top-level `Makefile`). The project runs directly as Python scripts within Conda environments and is containerized via Docker for deployment. The one exception is the documentation, which has its own Sphinx `Makefile` in `docs/`.
+
+### Documentation build
+
+The documentation is built with Sphinx from `docs/` (`cd docs && make html`), which requires a dedicated Conda environment. See the Documentation section of `docs/source/developer-notes.md` for the environment setup and output location.
 
 ### Docker builds (from repository root)
 
