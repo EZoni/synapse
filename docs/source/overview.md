@@ -15,7 +15,7 @@ As an example, the schematic below illustrates how Synapse is used at the Berkel
 One of the main software components is the graphical user interface (GUI), which is deployed through [Spin](https://docs.nersc.gov/services/spin/) at NERSC.
 The application requires access to various data and information sources, as described below.
 
-## Displaying ML Predictions
+## Displaying ML predictions
 
 To display ML predictions, the application requires the following:
 
@@ -28,7 +28,7 @@ Experimental and simulation data points are stored in the same collection and di
 The corresponding MP4 files are stored in the Perlmutter shared file system at `/global/cfs/cdirs/m558/superfacility/simulation_data`.
 This directory is mounted on the container image running on Spin.
 
-## Launching ML Training at NERSC
+## Launching ML training at NERSC
 
 ML models can be trained by launching jobs on Perlmutter from the GUI, through the [NERSC Superfacility API](https://docs.nersc.gov/services/sfapi/). The application requires the following:
 
@@ -67,7 +67,7 @@ Synapse currently assumes these external services:
 - NERSC Superfacility API for Perlmutter jobs.
 - NERSC container registry for dashboard and ML images.
 
-## Repository Map
+## Repository map
 
 ```text
 dashboard/      Trame GUI and dashboard managers
@@ -77,7 +77,7 @@ tests/          End-to-end ML pipeline helpers
 docs/           Sphinx documentation source
 ```
 
-## Copyright Notice and License Agreement
+## Copyright notice and license agreement
 
 Synapse is distributed under the `BSD-3-Clause-LBNL` license. The copyright notice
 and license agreement are in the

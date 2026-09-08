@@ -1,4 +1,4 @@
-# ML Training
+# ML training
 
 Synapse's ML training is implemented primarily in {repo}`ml/train_model.py`. It reads the configuration and MongoDB records, trains a model, wraps it with `lume-model`, and optionally registers it in MLflow.
 
@@ -8,7 +8,7 @@ ML models can be trained in two distinct ways:
 
 2. At NERSC, either manually or through the dashboard.
 
-## Train ML Models Locally
+## Train ML models locally
 
 This section describes how to train ML models locally.
 
@@ -86,7 +86,7 @@ This section describes how to train ML models locally.
 
 Coming soon.
 
-## Train ML Models at NERSC
+## Train ML models at NERSC
 
 This section describes how to train ML models at NERSC.
 
@@ -175,7 +175,7 @@ export REGISTRY_PASSWORD="..."
 Connect to the [dashboard](https://bellasuperfacility.lbl.gov/) deployed at NERSC through Spin and click the `Train` button in the `ML` panel.
 You need to upload valid Superfacility API credentials before you can launch simulations or train ML models directly from the dashboard.
 
-## Model Types
+## Model types
 
 Use `--model` with one of:
 
@@ -204,7 +204,7 @@ Use `--test` to skip MLflow registration.
 The script's own `Phase 1` and `Phase 2` log messages refer to steps 3 and 4 above, not to steps 1 and 2.
 ```
 
-## MLflow Names
+## MLflow names
 
 Registered models use:
 
@@ -218,7 +218,7 @@ The MLflow experiment is:
 synapse-<experiment>
 ```
 
-## For Maintainers
+## For maintainers
 
 ### Generate the conda environment lock file
 

@@ -2,7 +2,7 @@
 
 Synapse is deployed using Docker images and NERSC services.
 
-## Dashboard Image
+## Dashboard image
 
 From the repository root:
 
@@ -10,7 +10,7 @@ From the repository root:
 docker build --platform linux/amd64 --output type=image,oci-mediatypes=true -t synapse-gui -f dashboard.Dockerfile .
 ```
 
-## ML Image
+## ML image
 
 From the repository root:
 
@@ -20,13 +20,13 @@ docker build --platform linux/amd64 --output type=image,oci-mediatypes=true -t s
 
 The two build commands differ only by image tag and Dockerfile.
 
-## Publish Helper
+## Publish helper
 
 ```bash
 python publish_container.py --gui --ml
 ```
 
-## NERSC Assumptions
+## NERSC assumptions
 
 - Dashboard runs on Spin.
 - Training and simulations run on Perlmutter through Superfacility API.

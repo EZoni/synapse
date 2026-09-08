@@ -3,7 +3,7 @@
 Synapse treats simulation support as experiment-owned code.
 The dashboard only needs to know where to find scripts and how to submit a job through the NERSC Superfacility API.
 
-## Directory Layout
+## Directory layout
 
 For dashboard-triggered single simulations, an experiment may provide:
 
@@ -17,7 +17,7 @@ experiments/synapse-<experiment>/simulation_scripts/
 The dashboard enables the `Simulate` button only when all three of the following hold: `submission_script_single` exists, Perlmutter reports status `active`, and no dashboard-launched simulation is already running.
 Before submission, it writes the current dashboard parameters to `single_simulation_parameters.yaml` after converting experimental variables to simulation variables.
 
-## Submission Flow
+## Submission flow
 
 1. User uploads valid Superfacility API credentials.
 2. Dashboard checks Perlmutter status.
@@ -31,12 +31,12 @@ Before submission, it writes the current dashboard parameters to `single_simulat
 5. The dashboard reads `submission_script_single` and submits it through Superfacility API.
 6. Job status is polled until a terminal state, such as completed, failed, or cancelled.
 
-## Parameter Scans
+## Parameter scans
 
 Some experiment repositories also include `submission_script_multi` or custom scan scripts.
 These scripts are experiment-specific and are usually run manually on Perlmutter.
 
-## Simulation Outputs
+## Simulation outputs
 
 Simulation records should be written to the experiment's MongoDB collection with `experiment_flag: 0`.
 Field names should match either the experiment config outputs or the configured simulation calibration variable names.

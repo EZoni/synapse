@@ -1,4 +1,4 @@
-# Getting Started
+# Getting started
 
 For a reproducible installation, use `environment-lock.yml` rather than the unpinned `environment.yml`.
 
@@ -21,12 +21,12 @@ For local MongoDB access, open a tunnel first:
 ssh -L 27017:mongodb05.nersc.gov:27017 <username>@dtn03.nersc.gov -N
 ```
 
-## ML Training
+## ML training
 
 Training requires an experiment configuration. Experiment configs are not part of this
 repository: clone the private repository for your experiment into `experiments/` first, so
 that `experiments/synapse-<experiment>/config.yaml` exists. See
-[Experiment Configuration](experiment-configuration.md) for the expected layout.
+[Experiment configuration](experiment-configuration.md) for the expected layout.
 
 From `ml/`:
 
@@ -38,7 +38,7 @@ export AM_SC_API_KEY='...'
 python train_model.py --test --config_file ../experiments/synapse-<experiment>/config.yaml --model NN
 ```
 
-## Required Environment Variables
+## Required environment variables
 
 - `SF_DB_HOST`: MongoDB host for the dashboard.
 - `SF_DB_READONLY_PASSWORD`: read-only MongoDB password.

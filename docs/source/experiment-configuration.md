@@ -1,4 +1,4 @@
-# Experiment Configuration
+# Experiment configuration
 
 An experiment is a directory named `experiments/synapse-<experiment>/`.
 The dashboard strips `synapse-` and uses the rest as the experiment identifier.
@@ -11,7 +11,7 @@ Each experiment should provide:
 - optional `simulation_scripts/`
 - optional `experiment_scripts/`
 
-## Required Config Sections
+## Required config sections
 
 - `experiment`: collection and model namespace, for example `bella-ip2`.
 - `database`: MongoDB connection and credential environment variables.
@@ -50,7 +50,7 @@ simulation = alpha * (experimental - beta)
 
 These are inverse conversions: display maps simulation to experimental units, while launch maps dashboard parameters back to simulation units.
 
-## Add an Experiment
+## Add an experiment
 
 1. Clone or create `experiments/synapse-<experiment>/`.
 2. Add `config.yaml`.

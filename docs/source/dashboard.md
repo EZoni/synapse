@@ -11,7 +11,7 @@ The dashboard can be run in two distinct ways:
 The dashboard is a Trame application rooted in {repo}`dashboard/app.py`.
 It discovers experiments from the subdirectories of `experiments/`, stripping the `synapse-` prefix from each directory name, reads each experiment's `config.yaml`, connects to MongoDB, loads MLflow models, and builds the GUI used to inspect data and launch jobs.
 
-## Run the Dashboard Locally
+## Run the dashboard locally
 
 This section describes how to develop and use the dashboard locally.
 
@@ -85,12 +85,12 @@ conda-lock install --name synapse-gui environment-lock.yml
    ```
    Note that `-v /etc/localtime:/etc/localtime` is necessary to synchronize the time zone in the container with the host machine.
 
-## Run the Dashboard at NERSC
+## Run the dashboard at NERSC
 
 Connect to the [dashboard](https://bellasuperfacility.lbl.gov/) deployed at NERSC through Spin and explore it.
 You need to upload valid Superfacility API credentials before you can launch simulations or train ML models directly from the dashboard.
 
-## Get the Superfacility API Credentials
+## Get the Superfacility API credentials
 
 Follow the instructions at [docs.nersc.gov/services/sfapi/authentication/#client](https://docs.nersc.gov/services/sfapi/authentication/#client):
 
@@ -115,7 +115,7 @@ Follow the instructions at [docs.nersc.gov/services/sfapi/authentication/#client
 
 7. Run `chmod 600 priv_key.pem` to restrict your private key file to read/write access only.
 
-## Main Managers
+## Main managers
 
 - {repo}`state_manager.py <dashboard/state_manager.py>`: shared Trame server, state, controller, and startup defaults.
 - {repo}`model_manager.py <dashboard/model_manager.py>`: MLflow model lookup, download, evaluation, and model training launch.
@@ -140,12 +140,12 @@ The dashboard has three routes, reachable from the navigation drawer:
 
 The experiment selector, the date range selector, and the error panel belong to the shared layout rather than to any single route, so they appear on all three.
 
-## NERSC Credentials
+## NERSC credentials
 
 Simulation and ML training launches require a Superfacility API key file uploaded through the dashboard.
 The file must be PEM-formatted and include the Superfacility API client ID as the first line, followed by the private key.
 
-## For Maintainers
+## For maintainers
 
 ### Generate the conda environment lock file
 
