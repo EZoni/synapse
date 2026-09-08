@@ -23,6 +23,11 @@ ssh -L 27017:mongodb05.nersc.gov:27017 <username>@dtn03.nersc.gov -N
 
 ## ML Training
 
+Training requires an experiment configuration. Experiment configs are not part of this
+repository: clone the private repository for your experiment into `experiments/` first, so
+that `experiments/synapse-<experiment>/config.yaml` exists. See
+[Experiment Configuration](experiment-configuration.md) for the expected layout.
+
 From `ml/`:
 
 ```bash
@@ -30,7 +35,7 @@ conda-lock install --name synapse-ml environment-lock.yml
 conda activate synapse-ml
 export SF_DB_READONLY_PASSWORD='...'
 export AM_SC_API_KEY='...'
-python train_model.py --test --config_file ../experiments/synapse-bella-ip2/config.yaml --model NN
+python train_model.py --test --config_file ../experiments/synapse-<experiment>/config.yaml --model NN
 ```
 
 ## Required Environment Variables
