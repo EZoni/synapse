@@ -39,8 +39,14 @@ exclude_patterns = []
 
 html_theme = "sphinx_book_theme"
 html_theme_options = {
+    # The left sidebar lists pages only: sphinx-book-theme resolves it with
+    # titles_only=True, so navbar depth cannot expose in-page headings there.
     "show_navbar_depth": 1,
     "max_navbar_depth": 1,
+    # In-page navigation lives in the right-hand "Contents" sidebar. Expand it
+    # to h3 on load so that long pages such as ml-training.md are navigable
+    # without having to scroll into a section first.
+    "show_toc_level": 2,
 }
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
