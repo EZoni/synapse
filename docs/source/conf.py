@@ -31,7 +31,6 @@ extlinks = {
 # Warn when a hardcoded URL could be written with one of the roles above.
 extlinks_detect_hardcoded_links = True
 
-templates_path = ["_templates"]
 exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
