@@ -1,6 +1,6 @@
 # Developer notes
 
-## Style
+## Code style
 
 Python code is linted and formatted with Ruff through the pre-commit hooks in {repo}`.pre-commit-config.yaml`:
 
@@ -10,13 +10,13 @@ pre-commit run --files <modified files>
 
 Ruff runs with its default rule set; there is no `pyproject.toml` or `ruff.toml` that overrides it.
 
-## Environments
+## Conda environments
 
 - Dashboard dependencies live in {repo}`dashboard/environment.yml`.
 - ML dependencies live in {repo}`ml/environment.yml`.
 - Regenerate the corresponding `environment-lock.yml` after dependency changes.
 
-## Documentation
+## Build the documentation
 
 Create the documentation conda environment once, from {repo-dir}`docs/`, using {repo}`docs.yml <docs/docs.yml>`:
 
@@ -45,7 +45,7 @@ python tests/test_ml_pipeline.py
 
 It requires a local MLflow server.
 
-## Patterns
+## Code organization
 
 - Dashboard features use manager classes in `dashboard/*_manager.py`.
 - Experiment-specific behavior belongs under `experiments/synapse-*`.

@@ -59,7 +59,7 @@ This section describes how to train ML models locally.
    python train_model.py --test --model <your_model> --config_file <your_config_file>
    ```
 
-#### Test the full train/save/load cycle: `test_ml_pipeline.py`
+#### Test the full train/save/load cycle
 
 {repo}`tests/test_ml_pipeline.py` exercises the full ML lifecycle: training, upload to MLflow, download, and accuracy check.
 It requires a local, empty MLflow server so it does not touch a production server.
@@ -138,7 +138,7 @@ This section describes how to train ML models at NERSC.
 ### Manually with Docker
 
 ```{warning}
-The Docker container is pulled from the [NERSC registry](https://registry.nersc.gov) and does not reflect any local changes you may have made to {repo}`train_model.py <ml/train_model.py>` unless you rebuild and redeploy the container first.
+The Docker image is pulled from the [NERSC registry](https://registry.nersc.gov) and does not reflect any local changes you may have made to {repo}`train_model.py <ml/train_model.py>` unless you rebuild and redeploy the image first.
 ```
 
 1. Log in to Perlmutter:
@@ -148,7 +148,7 @@ The Docker container is pulled from the [NERSC registry](https://registry.nersc.
 
 2. Ensure the file `$HOME/db.profile` contains the read-only database password and the AmSC MLflow API key: `export SF_DB_READONLY_PASSWORD='your_password_here'` and `export AM_SC_API_KEY='your_amsc_api_key_here'`.
 
-3. Pull the Docker container:
+3. Pull the Docker image:
    ```bash
    podman-hpc login --username $USER registry.nersc.gov
    # Password: your NERSC password without 2FA
@@ -186,7 +186,7 @@ Use `--model` with one of:
 - `ensemble_NN`: ensemble neural network.
   The current ensemble size is defined in `train_nn_ensemble()` in {repo}`ml/train_model.py`.
 
-## Command
+## Training command
 
 ```bash
 python train_model.py --config_file ../experiments/synapse-<experiment>/config.yaml --model NN
@@ -194,13 +194,13 @@ python train_model.py --config_file ../experiments/synapse-<experiment>/config.y
 
 Use `--test` to skip MLflow registration.
 
-## Steps
+## What the training script does
 
 1. Load config, variables, database records, and MLflow settings.
 2. Build calibration and normalization transforms.
 3. Train on simulation data.
    The script logs this step as `Phase 1`.
-4. Train the [calibration](experiment-configuration.md#calibration) on experimental data when available.
+4. Train the [calibration](experiment-configuration.md#simulation-calibration) on experimental data when available.
    The script logs this step as `Phase 2`, and skips it when no experimental data is found.
 5. Build a `lume-model`.
 6. Register to MLflow, unless `--test` is set or the configuration file has no `mlflow.tracking_uri`.
@@ -209,7 +209,7 @@ Use `--test` to skip MLflow registration.
 The script's own `Phase 1` and `Phase 2` log messages refer to steps 3 and 4 above, not to steps 1 and 2.
 ```
 
-## MLflow names
+## MLflow model and experiment names
 
 Registered models use:
 
@@ -244,10 +244,10 @@ synapse-<experiment>
    conda-lock --file environment.yml --virtual-package-spec virtual-packages.yml --lockfile environment-lock.yml
    ```
 
-### Build and push the Docker container to NERSC
+### Build and push the Docker image to NERSC
 
 ```{warning}
-Pushing a new Docker container affects ML training jobs launched from both locally deployed dashboards and the dashboard deployed at NERSC, because in both cases training runs in a Docker container pulled from the [NERSC registry](https://registry.nersc.gov).
+Pushing a new Docker image affects ML training jobs launched from both locally deployed dashboards and the dashboard deployed at NERSC, because in both cases training runs in a container started from the image pulled from the [NERSC registry](https://registry.nersc.gov).
 Currently, this is the only way to test the end-to-end integration of the dashboard with the ML training workflow.
 ```
 
@@ -281,7 +281,7 @@ docker --version
    docker build --platform linux/amd64 --output type=image,oci-mediatypes=true -t synapse-ml -f ml.Dockerfile .
    ```
 
-#### Push the Docker container
+#### Push the Docker image
 
 1. Move to the root directory of the repository.
 
@@ -298,7 +298,7 @@ docker --version
    docker tag synapse-ml:latest registry.nersc.gov/m558/superfacility/synapse-ml:$(date "+%y.%m")
    ```
 
-4. Push the Docker container:
+4. Push the Docker image:
    ```bash
    docker push -a registry.nersc.gov/m558/superfacility/synapse-ml
    ```

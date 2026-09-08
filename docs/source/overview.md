@@ -43,14 +43,6 @@ The application requires the following:
 
 ## Workflow
 
-The main source areas are:
-
-- {repo-dir}`dashboard/`: a Trame web application for exploring experiments, simulations, model predictions, optimization, calibration, and NERSC job controls.
-- {repo-dir}`ml/`: model training code for Gaussian Process, single Neural Network, and Neural Network ensemble models.
-- {repo-dir}`experiments/`: experiment-specific configuration and scripts, usually cloned from private repositories.
-- {repo-dir}`tests/`: integration checks for the ML pipeline.
-- {repo-dir}`docs/`: Sphinx documentation source.
-
 The typical workflow is:
 
 1. Add or update an experiment repository under `experiments/synapse-<name>/`.
@@ -60,7 +52,7 @@ The typical workflow is:
 5. Register the trained model in MLflow.
 6. Use the dashboard to visualize data, query the model, optimize inputs, and launch NERSC jobs.
 
-## Services
+## External services
 
 Synapse currently assumes these external services:
 
@@ -70,15 +62,13 @@ Synapse currently assumes these external services:
 - NERSC Superfacility API for Perlmutter jobs.
 - NERSC container registry for dashboard and ML images.
 
-## Repository map
+## Repository layout
 
-```text
-dashboard/      Trame GUI and dashboard managers
-ml/             ML training script, model classes, Perlmutter batch template
-experiments/    Experiment configs and experiment-owned scripts
-tests/          End-to-end ML pipeline helpers
-docs/           Sphinx documentation source
-```
+- {repo-dir}`dashboard/`: a Trame web application, with its dashboard managers, for exploring experiments, simulations, model predictions, optimization, calibration, and NERSC job controls.
+- {repo-dir}`ml/`: the model training script, model classes for Gaussian Process, single Neural Network, and Neural Network ensemble models, and the Perlmutter batch template.
+- {repo-dir}`experiments/`: experiment-specific configuration and scripts, usually cloned from private repositories.
+- {repo-dir}`tests/`: end-to-end integration checks for the ML pipeline.
+- {repo-dir}`docs/`: Sphinx documentation source.
 
 ## Copyright notice and license agreement
 

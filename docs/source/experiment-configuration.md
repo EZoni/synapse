@@ -11,7 +11,7 @@ Each experiment should provide:
 - optional `simulation_scripts/`
 - optional `experiment_scripts/`
 
-## Required config sections
+## Required configuration sections
 
 - `experiment`: collection and model namespace, for example `bella-ip2`.
 - `database`: MongoDB connection and credential environment variables.
@@ -20,7 +20,7 @@ Each experiment should provide:
 - `inputs`: scalar variables with `name`, `type`, `default`, and `value_range`.
 - `outputs`: scalar variables with `name` and `type`.
 
-## Calibration
+## Simulation calibration
 
 `simulation_calibration` maps simulation variable names to experimental variable names:
 

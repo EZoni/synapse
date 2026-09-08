@@ -2,7 +2,7 @@
 
 For a reproducible installation, use the pinned `environment-lock.yml` of {repo-dir}`dashboard/` or {repo-dir}`ml/` rather than the unpinned `environment.yml`.
 
-## Dashboard
+## Run the dashboard
 
 From {repo-dir}`dashboard/`, launch {repo}`app.py <dashboard/app.py>`:
 
@@ -21,7 +21,7 @@ For local MongoDB access, open a tunnel first:
 ssh -L 27017:mongodb05.nersc.gov:27017 <username>@dtn03.nersc.gov -N
 ```
 
-## ML training
+## Train a model
 
 Training requires an experiment configuration.
 Experiment configs are not part of this repository: clone the private repository for your experiment into {repo-dir}`experiments/` first, so that `experiments/synapse-<experiment>/config.yaml` exists.

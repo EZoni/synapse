@@ -64,7 +64,7 @@ conda-lock install --name synapse-gui environment-lock.yml
 
 ### With Docker
 
-#### Run the dashboard
+#### Run the container
 
 1. Create an SSH tunnel to access the MongoDB database at NERSC (in a separate terminal):
    ```bash
@@ -90,7 +90,7 @@ conda-lock install --name synapse-gui environment-lock.yml
 Connect to the [dashboard](https://bellasuperfacility.lbl.gov/) deployed at NERSC through Spin and explore it.
 You need to upload valid Superfacility API credentials before you can launch simulations or train ML models directly from the dashboard.
 
-## Get the Superfacility API credentials
+## Generate Superfacility API credentials
 
 Follow the instructions at [docs.nersc.gov/services/sfapi/authentication/#client](https://docs.nersc.gov/services/sfapi/authentication/#client):
 
@@ -115,7 +115,7 @@ Follow the instructions at [docs.nersc.gov/services/sfapi/authentication/#client
 
 7. Run `chmod 600 priv_key.pem` to restrict your private key file to read/write access only.
 
-## Main managers
+## Manager modules
 
 - {repo}`state_manager.py <dashboard/state_manager.py>`: shared Trame server, state, controller, and startup defaults.
 - {repo}`model_manager.py <dashboard/model_manager.py>`: MLflow model lookup, download, evaluation, and model training launch.
@@ -127,7 +127,7 @@ Follow the instructions at [docs.nersc.gov/services/sfapi/authentication/#client
 - {repo}`error_manager.py <dashboard/error_manager.py>`: user-visible error collection.
 - {repo}`utils.py <dashboard/utils.py>`: config loading, database access, date filters, and Plotly figures.
 
-## Views
+## Routes
 
 The dashboard has three routes, reachable from the navigation drawer:
 
@@ -140,7 +140,7 @@ The dashboard has three routes, reachable from the navigation drawer:
 
 The experiment selector, the date range selector, and the error panel belong to the shared layout rather than to any single route, so they appear on all three.
 
-## NERSC credentials
+## Credential file format
 
 Simulation and ML training launches require a Superfacility API key file uploaded through the dashboard.
 The file must be PEM-formatted and include the Superfacility API client ID as the first line, followed by the private key.
@@ -166,10 +166,10 @@ The file must be PEM-formatted and include the Superfacility API client ID as th
    conda-lock --file environment.yml --lockfile environment-lock.yml
    ```
 
-### Build and push the Docker container to NERSC
+### Build and push the Docker image to NERSC
 
 ```{warning}
-Pushing a new Docker container affects the production dashboard deployed through Spin at NERSC.
+Pushing a new Docker image affects the production dashboard deployed through Spin at NERSC.
 ```
 
 ````{tip}
@@ -195,7 +195,7 @@ docker system prune -a
    docker build --platform linux/amd64 --output type=image,oci-mediatypes=true -t synapse-gui -f dashboard.Dockerfile .
    ```
 
-#### Push the Docker container
+#### Push the Docker image
 
 1. Move to the root directory of the repository.
 
@@ -212,7 +212,7 @@ docker system prune -a
    docker tag synapse-gui:latest registry.nersc.gov/m558/superfacility/synapse-gui:$(date "+%y.%m")
    ```
 
-4. Push the Docker container:
+4. Push the Docker image:
    ```bash
    docker push -a registry.nersc.gov/m558/superfacility/synapse-gui
    ```

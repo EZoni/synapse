@@ -3,7 +3,7 @@
 Synapse treats simulation support as experiment-owned code.
 The dashboard only needs to know where to find scripts and how to submit a job through the NERSC Superfacility API.
 
-## Directory layout
+## Simulation script layout
 
 For dashboard-triggered single simulations, an experiment may provide:
 
