@@ -7,7 +7,7 @@ Synapse embraces emerging [integrated research infrastructures](https://www.ners
 At the moment, Synapse uses NERSC Spin (control and dashboard), the NERSC Superfacility API (simulation submission and ML training on Perlmutter), and the NERSC container registry.
 Synapse is under active development and is being broadened into an AI-accelerated, portable framework.
 
-Synapse enables physicists to couple experimental data, simulations, and machine learning (ML) models trained on both experimental and simulation data.
+Synapse enables physicists to couple experimental data, simulations, and ML models trained on both experimental and simulation data.
 As an example, the schematic below illustrates how Synapse is used at the Berkeley Lab Laser Accelerator Center (BELLA):
 
 ![Synapse overview](synapse_overview.png)
