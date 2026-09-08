@@ -23,10 +23,9 @@ ssh -L 27017:mongodb05.nersc.gov:27017 <username>@dtn03.nersc.gov -N
 
 ## ML training
 
-Training requires an experiment configuration. Experiment configs are not part of this
-repository: clone the private repository for your experiment into {repo-dir}`experiments/` first, so
-that `experiments/synapse-<experiment>/config.yaml` exists. See
-[Experiment configuration](experiment-configuration.md) for the expected layout.
+Training requires an experiment configuration.
+Experiment configs are not part of this repository: clone the private repository for your experiment into {repo-dir}`experiments/` first, so that `experiments/synapse-<experiment>/config.yaml` exists.
+See [Experiment configuration](experiment-configuration.md) for the expected layout.
 
 From {repo-dir}`ml/`, run {repo}`train_model.py <ml/train_model.py>`:
 

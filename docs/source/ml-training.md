@@ -1,6 +1,7 @@
 # ML training
 
-Synapse's ML training is implemented primarily in {repo}`ml/train_model.py`. It reads the configuration and MongoDB records, trains a model, wraps it with `lume-model`, and optionally registers it in MLflow.
+Synapse's ML training is implemented primarily in {repo}`ml/train_model.py`.
+It reads the configuration and MongoDB records, trains a model, wraps it with `lume-model`, and optionally registers it in MLflow.
 
 ML models can be trained in two distinct ways:
 
@@ -60,7 +61,8 @@ This section describes how to train ML models locally.
 
 #### Test the full train/save/load cycle: `test_ml_pipeline.py`
 
-{repo}`tests/test_ml_pipeline.py` exercises the full ML lifecycle: training → upload to MLflow → download → accuracy check. It requires a local, empty MLflow server so it does not touch a production server.
+{repo}`tests/test_ml_pipeline.py` exercises the full ML lifecycle: training → upload to MLflow → download → accuracy check.
+It requires a local, empty MLflow server so it does not touch a production server.
 
 1. Start a local MLflow server, e.g. with Docker:
    ```bash
@@ -181,7 +183,8 @@ Use `--model` with one of:
 
 - `GP`: Gaussian Process.
 - `NN`: single neural network.
-- `ensemble_NN`: ensemble neural network. The current ensemble size is defined in `train_nn_ensemble()` in {repo}`ml/train_model.py`.
+- `ensemble_NN`: ensemble neural network.
+The current ensemble size is defined in `train_nn_ensemble()` in {repo}`ml/train_model.py`.
 
 ## Command
 
@@ -195,8 +198,10 @@ Use `--test` to skip MLflow registration.
 
 1. Load config, variables, database records, and MLflow settings.
 2. Build calibration and normalization transforms.
-3. Train on simulation data. The script logs this step as `Phase 1`.
-4. Train the [calibration](experiment-configuration.md#calibration) on experimental data when available. The script logs this step as `Phase 2`, and skips it when no experimental data is found.
+3. Train on simulation data.
+   The script logs this step as `Phase 1`.
+4. Train the [calibration](experiment-configuration.md#calibration) on experimental data when available.
+   The script logs this step as `Phase 2`, and skips it when no experimental data is found.
 5. Build a `lume-model`.
 6. Register to MLflow, unless `--test` is set or the configuration file has no `mlflow.tracking_uri`.
 
