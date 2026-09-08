@@ -186,7 +186,7 @@ Use `--model` with one of:
 ## Command
 
 ```bash
-python train_model.py --config_file ../experiments/synapse-bella-ip2/config.yaml --model NN
+python train_model.py --config_file ../experiments/synapse-<experiment>/config.yaml --model NN
 ```
 
 Use `--test` to skip MLflow registration.
